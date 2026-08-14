@@ -77,7 +77,7 @@ button { color: inherit; }
 .site-header, main, footer { position: relative; z-index: 1; }
 
 .site-header {
-  width: min(1280px, calc(100% - 48px));
+  width: min(1400px, calc(100% - 48px));
   height: 94px;
   margin: 0 auto;
   display: flex;
@@ -159,14 +159,14 @@ button { color: inherit; }
 
 @keyframes signal { 50% { opacity: .35; box-shadow: 0 0 3px var(--matrix); } }
 
-main { width: min(1280px, calc(100% - 48px)); margin: 0 auto; }
+main { width: min(1400px, calc(100% - 48px)); margin: 0 auto; }
 
 .hero-grid {
   min-height: calc(100vh - 166px);
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(410px, .78fr);
+  grid-template-columns: minmax(0, 1.04fr) minmax(500px, .9fr);
   align-items: center;
-  gap: clamp(58px, 7vw, 110px);
+  gap: clamp(58px, 5.5vw, 90px);
   padding: 72px 0 78px;
 }
 
@@ -200,7 +200,7 @@ main { width: min(1280px, calc(100% - 48px)); margin: 0 auto; }
   margin: 0;
   max-width: 760px;
   color: #edfef2;
-  font: 700 clamp(58px, 6.7vw, 96px)/.83 "Rajdhani", sans-serif;
+  font: 700 clamp(58px, 5.5vw, 84px)/.86 "Rajdhani", sans-serif;
   letter-spacing: -.055em;
   text-transform: uppercase;
   text-wrap: balance;
@@ -217,7 +217,7 @@ main { width: min(1280px, calc(100% - 48px)); margin: 0 auto; }
   padding-left: 18px;
   border-left: 1px solid var(--line-strong);
   color: #8eac97;
-  font: 400 14px/1.8 "IBM Plex Mono", monospace;
+  font: 400 15px/1.78 "IBM Plex Mono", monospace;
 }
 
 .hero-terminal {
@@ -253,7 +253,7 @@ main { width: min(1280px, calc(100% - 48px)); margin: 0 auto; }
 
 .forge-form {
   position: relative;
-  padding: 26px;
+  padding: 31px;
   border: 1px solid rgba(46, 255, 111, .46);
   background:
     linear-gradient(135deg, rgba(46, 255, 111, .045), transparent 26%),
@@ -278,15 +278,15 @@ main { width: min(1280px, calc(100% - 48px)); margin: 0 auto; }
   display: flex;
   align-items: center;
   gap: 12px;
-  min-height: 32px;
-  padding-bottom: 16px;
-  margin-bottom: 20px;
+  min-height: 36px;
+  padding-bottom: 18px;
+  margin-bottom: 23px;
   border-bottom: 1px solid var(--line);
 }
 
 .form-head > span, .panel-title span {
   color: var(--matrix-hot);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: .08em;
 }
@@ -294,7 +294,7 @@ main { width: min(1280px, calc(100% - 48px)); margin: 0 auto; }
 .form-head > small, .panel-title small, .counter {
   margin-left: auto;
   color: var(--muted);
-  font-size: 8px;
+  font-size: 9px;
   letter-spacing: .06em;
 }
 
@@ -305,16 +305,16 @@ main { width: min(1280px, calc(100% - 48px)); margin: 0 auto; }
 .forge-form > label, fieldset {
   position: relative;
   display: block;
-  margin: 0 0 17px;
+  margin: 0 0 20px;
   padding: 0;
   border: 0;
 }
 
 .forge-form label > span, legend {
   display: block;
-  margin-bottom: 7px;
+  margin-bottom: 9px;
   color: #86aa91;
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 500;
   letter-spacing: .08em;
   text-transform: uppercase;
@@ -324,19 +324,19 @@ main { width: min(1280px, calc(100% - 48px)); margin: 0 auto; }
 
 input, textarea {
   width: 100%;
-  padding: 13px 14px;
+  padding: 15px 16px;
   border: 1px solid rgba(46, 255, 111, .18);
   border-radius: 0;
   outline: none;
   color: #d9ffe3;
   background: rgba(0, 5, 2, .76);
   caret-color: var(--matrix);
-  font-size: 11px;
+  font-size: 13px;
   transition: border-color .16s, box-shadow .16s, background .16s;
 }
 
 input::placeholder, textarea::placeholder { color: #3d6248; }
-textarea { resize: vertical; min-height: 112px; line-height: 1.55; }
+textarea { resize: vertical; min-height: 132px; line-height: 1.55; }
 input:focus, textarea:focus {
   border-color: var(--matrix);
   background: rgba(1, 13, 5, .93);
@@ -351,8 +351,8 @@ legend { grid-column: 1 / -1; width: 100%; }
 .mode-card {
   display: flex !important;
   align-items: flex-start;
-  gap: 9px;
-  padding: 12px;
+  gap: 10px;
+  padding: 14px;
   border: 1px solid rgba(46, 255, 111, .16);
   cursor: pointer;
   background: rgba(0, 5, 2, .54);
@@ -364,8 +364,8 @@ legend { grid-column: 1 / -1; width: 100%; }
 .mode-card input { width: auto; margin-top: 2px; accent-color: var(--matrix); }
 .mode-card span { margin: 0 !important; text-transform: none !important; letter-spacing: 0 !important; }
 .mode-card span::before { content: none !important; }
-.mode-card b { display: block; color: var(--ink); font-size: 9px; }
-.mode-card small { display: block; margin-top: 4px; color: var(--muted); font-size: 8px; line-height: 1.4; }
+.mode-card b { display: block; color: var(--ink); font-size: 11px; }
+.mode-card small { display: block; margin-top: 5px; color: var(--muted); font-size: 9px; line-height: 1.4; }
 
 .primary-button, .ghost-button, .tabs button {
   border: 0;
@@ -375,17 +375,17 @@ legend { grid-column: 1 / -1; width: 100%; }
 
 .primary-button {
   width: 100%;
-  min-height: 47px;
+  min-height: 54px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 13px 16px;
+  padding: 15px 18px;
   border: 1px solid var(--matrix);
   border-radius: 0;
   color: #001f09;
   background: var(--matrix);
   clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: .07em;
   text-transform: uppercase;
@@ -395,7 +395,7 @@ legend { grid-column: 1 / -1; width: 100%; }
 .primary-button:hover { color: #001706; background: var(--matrix-hot); box-shadow: 0 0 28px rgba(46, 255, 111, .38); transform: translateY(-1px); }
 .primary-button:focus-visible, .ghost-button:focus-visible, .tabs button:focus-visible { outline: 2px solid var(--matrix-hot); outline-offset: 3px; }
 .primary-button:disabled { opacity: .48; cursor: wait; transform: none; }
-.primary-button i { font-style: normal; font-size: 8px; letter-spacing: .08em; }
+.primary-button i { font-style: normal; font-size: 9px; letter-spacing: .08em; }
 .primary-button.compact { width: auto; min-width: 170px; justify-content: center; }
 
 .error-banner {
@@ -517,7 +517,7 @@ legend { grid-column: 1 / -1; width: 100%; }
 .empty-state { padding: 30px; color: var(--muted); font-size: 11px; text-align: center; }
 
 footer {
-  width: min(1280px, calc(100% - 48px));
+  width: min(1400px, calc(100% - 48px));
   min-height: 72px;
   margin: 0 auto;
   display: flex;
