@@ -194,15 +194,19 @@ export default function App() {
 
   return (
     <div className="app-shell">
+      <MatrixRain />
+      <div className="screen-vignette" aria-hidden="true" />
+      <div className="scanlines" aria-hidden="true" />
       <div className="noise" aria-hidden="true" />
       <header className="site-header">
         <a className="brand" href="/" onClick={(event) => { event.preventDefault(); restart(); }}>
-          <span className="brand-mark">T</span>
-          <span>TestSmith</span>
+          <span className="brand-mark">TS</span>
+          <span className="brand-copy"><b>TESTSMITH</b><small>AGENT TESTING SYSTEM</small></span>
         </a>
         <div className="header-note">
           <span className="live-dot" />
-          Pi · E2B · OpenRouter
+          <span>SYSTEM ONLINE</span>
+          <i>PI / E2B / OPENROUTER</i>
         </div>
       </header>
 
@@ -210,23 +214,30 @@ export default function App() {
         {!job && (
           <section className="hero-grid">
             <div className="hero-copy">
-              <p className="eyebrow">Автономная тестовая мастерская</p>
-              <h1>Тесты, выкованные <span>в песочнице.</span></h1>
+              <div className="system-index" aria-hidden="true">01</div>
+              <p className="eyebrow">Автономный протокол тестирования</p>
+              <h1>Испытай код.<br /><span>Увидь истину.</span></h1>
               <p className="lead">
-                Передайте публичный JS/TS-репозиторий. Pi изучит код, запустит baseline,
-                добавит тесты и вернёт проверяемый patch — без push и доступа к вашей инфраструктуре.
+                Передайте публичный JS/TS-репозиторий в изолированную среду. Pi войдёт в код,
+                найдёт слабые места и вернёт проверяемый patch — без push и доступа к вашей инфраструктуре.
               </p>
+              <div className="hero-terminal" aria-hidden="true">
+                <span><i>&gt;</i> INITIALIZING TEST PROTOCOL</span>
+                <span><i>&gt;</i> SANDBOX ISOLATION <b>[SECURE]</b></span>
+                <span><i>&gt;</i> AWAITING REPOSITORY_</span>
+              </div>
               <div className="trust-row">
-                <div><b>01</b><span>Изолированный E2B</span></div>
-                <div><b>02</b><span>Живой ход работы</span></div>
-                <div><b>03</b><span>Patch и логи</span></div>
+                <div><b>01 / ISOLATE</b><span>Изолированный E2B</span></div>
+                <div><b>02 / OBSERVE</b><span>Живой ход работы</span></div>
+                <div><b>03 / VERIFY</b><span>Patch и логи</span></div>
               </div>
             </div>
 
             <form className="forge-form" onSubmit={submit}>
               <div className="form-head">
-                <span>Новое задание</span>
-                <small>до 15 минут</small>
+                <div className="window-controls" aria-hidden="true"><i /><i /><i /></div>
+                <span>TESTSMITH://NEW_JOB</span>
+                <small>SECURE SESSION · 15 MIN</small>
               </div>
               <label>
                 <span>GitHub-репозиторий</span>
@@ -284,7 +295,7 @@ export default function App() {
               {error && <div className="error-banner">{error}</div>}
               <button className="primary-button" disabled={submitting}>
                 <span>{submitting ? "Создаю песочницу…" : "Запустить TestSmith"}</span>
-                <i>↗</i>
+                <i>{submitting ? "···" : "ENTER ↵"}</i>
               </button>
             </form>
           </section>
@@ -321,14 +332,14 @@ export default function App() {
             {!result && (
               <div className="activity-layout">
                 <div className="activity-panel">
-                  <div className="panel-title"><span>Журнал выполнения</span><small>{events.length} событий</small></div>
+                  <div className="panel-title"><span>RUNNER://LIVE_FEED</span><small>{events.length} EVENTS</small></div>
                   <div className="timeline">
                     {events.length === 0 && <div className="waiting"><i /><span>Подключаюсь к runner’у…</span></div>}
                     {events.map((event) => <EventCard event={event} key={event.id} />)}
                   </div>
                 </div>
                 <aside className="safety-card">
-                  <p>Контур безопасности</p>
+                  <p>SECURITY PROTOCOL</p>
                   <ul>
                     <li>Только default branch</li>
                     <li>Git remote удаляется</li>
@@ -386,9 +397,37 @@ export default function App() {
       </main>
 
       <footer>
-        <span>TESTSMITH / 2026</span>
-        <span>Одно задание → одна микро-VM → проверяемый артефакт</span>
+        <span>TESTSMITH // SYS.2026</span>
+        <span>ONE JOB · ONE MICRO-VM · ONE VERIFIABLE ARTIFACT</span>
       </footer>
+    </div>
+  );
+}
+
+const matrixColumns = [
+  "ﾊﾐﾋｰｳｼﾅﾓﾆｻﾜﾂｵﾘ0Z1", "010011101001011", "ﾇﾌｱｸｴｶｷﾑﾕﾗｾﾈｽ", "TS101PI010E2B",
+  "ｺﾎﾃﾏｹﾒｴｶｷﾑﾕﾗ", "1011010011010", "ｻﾜﾂｵﾘﾇﾌｱｸｴｶ", "001TEST11001",
+  "ﾐﾋｰｳｼﾅﾓﾆｻﾜﾂ", "111001010011", "ｷﾑﾕﾗｾﾈｽﾀﾇﾍ", "PI01E2B10TS",
+  "ﾌｱｸｴｶｷﾑﾕﾗｾ", "010110100101", "ﾓﾆｻﾜﾂｵﾘﾇﾌｱ", "110VERIFY001",
+  "ｳｼﾅﾓﾆｻﾜﾂｵﾘ", "010011001011", "ﾗｾﾈｽﾀﾇﾍﾎﾏｹ", "E2B110PI001",
+  "ｴｶｷﾑﾕﾗｾﾈｽﾀ", "101001110100", "ﾜﾂｵﾘﾇﾌｱｸｴｶ", "001AGENT101"
+];
+
+function MatrixRain() {
+  return (
+    <div className="matrix-rain" aria-hidden="true">
+      {matrixColumns.map((glyphs, index) => (
+        <span
+          key={index}
+          style={{
+            left: `${1 + index * 4.2}%`,
+            animationDelay: `${-((index * 1.73) % 12)}s`,
+            animationDuration: `${10 + (index % 7) * 1.35}s`
+          }}
+        >
+          {glyphs}
+        </span>
+      ))}
     </div>
   );
 }
