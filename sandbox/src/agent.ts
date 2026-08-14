@@ -155,6 +155,9 @@ export async function runPiAgent(options: RunAgentOptions): Promise<AgentOutcome
         deadline = setTimeout(() => reject(new AgentTimeoutError()), AGENT_LIMIT_MS);
       })
     ]);
+    if (session.state.errorMessage) {
+      throw new Error("Pi/OpenRouter: " + sanitizeText(session.state.errorMessage, 1_500));
+    }
   } catch (error) {
     if (error instanceof AgentTimeoutError) {
       timedOut = true;

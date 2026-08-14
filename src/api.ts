@@ -113,6 +113,10 @@ export async function consumeJobEvents(
         const event = JSON.parse(parsed.data) as RunnerEvent;
         newestId = Math.max(newestId, parsed.id ?? event.id ?? 0);
         onEvent(event);
+        if (event.type === "job_done") {
+          await reader.cancel();
+          return newestId;
+        }
       } catch {
         // Ignore malformed frames and keep the stream alive.
       }
