@@ -184,6 +184,8 @@ function modelConfiguration(modelId: string, providerOrder: string[]): unknown {
         modelOverrides: {
           [modelId]: {
             compat: {
+              maxTokensField: "max_tokens",
+              supportsUsageInStreaming: false,
               openRouterRouting: {
                 order: providerOrder,
                 only: providerOrder,

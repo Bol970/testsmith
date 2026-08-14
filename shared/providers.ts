@@ -19,12 +19,14 @@ function numericPrice(value: string | undefined): number {
 }
 
 export function selectProviders(endpoints: OpenRouterEndpoint[], limit = 2): string[] {
+  const requiredParameters = ["tools", "tool_choice", "max_tokens"];
   return endpoints
     .filter((endpoint) => {
-      const tools = endpoint.supported_parameters?.includes("tools") ?? false;
+      const parameters = endpoint.supported_parameters ?? [];
+      const supportsRequest = requiredParameters.every((parameter) => parameters.includes(parameter));
       const context = endpoint.context_length ?? 0;
       const noTraining = endpoint.data_policy?.training !== true;
-      return tools && context >= 131_072 && noTraining && Boolean(endpoint.tag);
+      return supportsRequest && context >= 131_072 && noTraining && Boolean(endpoint.tag);
     })
     .sort((a, b) => {
       const uptime = (b.uptime_last_30m ?? 0) - (a.uptime_last_30m ?? 0);

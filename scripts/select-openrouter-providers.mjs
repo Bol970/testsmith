@@ -22,13 +22,14 @@ const response = await fetch(
 if (!response.ok) throw new Error("OpenRouter endpoints request failed with HTTP " + String(response.status));
 const payload = await response.json();
 const endpoints = Array.isArray(payload?.data?.endpoints) ? payload.data.endpoints : [];
+const requiredParameters = ["tools", "tool_choice", "max_tokens"];
 
 const eligible = endpoints
   .filter((endpoint) =>
     Boolean(endpoint.tag) &&
     Number(endpoint.context_length || 0) >= 131072 &&
     Array.isArray(endpoint.supported_parameters) &&
-    endpoint.supported_parameters.includes("tools") &&
+    requiredParameters.every((parameter) => endpoint.supported_parameters.includes(parameter)) &&
     endpoint.data_policy?.training !== true
   )
   .sort((left, right) => {
