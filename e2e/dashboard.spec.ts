@@ -98,7 +98,7 @@ function event(id: number, type: string, body: Record<string, unknown>) {
 
 function corsHeaders() {
   return {
-    "Access-Control-Allow-Origin": "http://127.0.0.1:4173",
+    "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": "Authorization, Last-Event-ID, Content-Type"
   };
 }
