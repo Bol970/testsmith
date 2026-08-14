@@ -26,9 +26,9 @@ Bootstrap-файл имеет owner `user` и существует только 
 
 ## Два токена браузера
 
-Secure E2B требует `X-Access-Token` для proxy-трафика. Он не заменяет собственную авторизацию TestSmith:
+Закрытый E2B proxy (`allowPublicTraffic: false`) требует `E2B-Traffic-Access-Token`. Он не заменяет собственную авторизацию TestSmith:
 
-- `X-Access-Token` пропускает запрос через E2B proxy;
+- `E2B-Traffic-Access-Token` пропускает запрос через E2B proxy;
 - `Authorization: Bearer <jobToken>` проверяется runner'ом;
 - `jobToken` — HMAC payload с `jobId`, `sandboxId`, `exp`, проверяемый также `/api/jobs/stop`;
 - ни один токен не помещается в URL или persistent storage.

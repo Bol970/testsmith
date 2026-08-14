@@ -347,7 +347,10 @@ function validateConfig(value: RunnerJobConfig): void {
 function applyCors(response: ServerResponse, origin: string): void {
   response.setHeader("Access-Control-Allow-Origin", origin);
   response.setHeader("Vary", "Origin");
-  response.setHeader("Access-Control-Allow-Headers", "Authorization, X-Access-Token, Last-Event-ID, Content-Type");
+  response.setHeader(
+    "Access-Control-Allow-Headers",
+    "Authorization, E2B-Traffic-Access-Token, Last-Event-ID, Content-Type"
+  );
   response.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
 }
 

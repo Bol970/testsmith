@@ -25,7 +25,7 @@ async function waitForRunner(baseUrl: string, sandboxAccessToken: string): Promi
   for (let attempt = 0; attempt < 20; attempt += 1) {
     try {
       const response = await fetch(baseUrl + "/healthz", {
-        headers: { "X-Access-Token": sandboxAccessToken },
+        headers: { "E2B-Traffic-Access-Token": sandboxAccessToken },
         signal: AbortSignal.timeout(2_000)
       });
       if (response.ok) return;
@@ -89,6 +89,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     sandbox = await Sandbox.create(config.e2bTemplate, {
       apiKey: config.e2bApiKey,
       secure: true,
+      network: { allowPublicTraffic: false },
       timeoutMs: HARD_TIMEOUT_MS,
       metadata: {
         app: "testsmith",

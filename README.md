@@ -37,7 +37,7 @@ sequenceDiagram
   V->>R: Files API: /tmp/testsmith-job.json
   R->>R: прочитать и немедленно удалить bootstrap
   V-->>User: job token + E2B traffic token
-  User->>R: GET /events (Bearer + X-Access-Token)
+  User->>R: GET /events (Bearer + E2B-Traffic-Access-Token)
   R->>R: clone, install, baseline
   R->>P: Pi session, runtime-only API key
   P-->>R: text и tool events
@@ -138,7 +138,7 @@ PLAYWRIGHT_BASE_URL=https://your-production.example npm run test:e2e
 - UI не получает `thinking_delta`, tool payload очищается и обрезается;
 - Markdown проходит `rehype-sanitize`, diff/logs отображаются как текст;
 - access code не сохраняется; активный job и два короткоживущих токена хранятся в `sessionStorage`;
-- E2B traffic token отправляется отдельным `X-Access-Token`, job token — `Authorization: Bearer`; токены не помещаются в URL;
+- E2B traffic token отправляется отдельным `E2B-Traffic-Access-Token`, job token — `Authorization: Bearer`; токены не помещаются в URL;
 - CI выполняет lint, typecheck, tests, build и secret scan.
 
 ## Ограничения v1

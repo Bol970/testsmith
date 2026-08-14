@@ -100,7 +100,7 @@ function event(id: number, type: string, body: Record<string, unknown>) {
 function corsHeaders() {
   return {
     "Access-Control-Allow-Origin": "http://127.0.0.1:4173",
-    "Access-Control-Allow-Headers": "Authorization, X-Access-Token, Last-Event-ID, Content-Type"
+    "Access-Control-Allow-Headers": "Authorization, E2B-Traffic-Access-Token, Last-Event-ID, Content-Type"
   };
 }
 

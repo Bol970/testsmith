@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@earendil-works/pi-coding-agent": "0.84.1",
-    "archiver": "8.0.0",
+    "archiver": "7.0.1",
     "typebox": "1.0.8"
   },
   "devDependencies": {

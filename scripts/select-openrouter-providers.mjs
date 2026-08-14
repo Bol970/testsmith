@@ -9,9 +9,15 @@ const [author, ...slugParts] = modelId.split("/");
 const slug = slugParts.join("/");
 if (!author || !slug) throw new Error("Invalid OPENROUTER_MODEL: " + modelId);
 
+const headers = {
+  Accept: "application/json",
+  "User-Agent": "TestSmith/0.1 (+https://github.com/Bol970/testsmith)"
+};
+headers.Authorization = "Bearer " + apiKey;
+
 const response = await fetch(
   "https://openrouter.ai/api/v1/models/" + encodeURIComponent(author) + "/" + encodeURIComponent(slug) + "/endpoints",
-  { headers: { Authorization: "Bearer " + apiKey } }
+  { headers }
 );
 if (!response.ok) throw new Error("OpenRouter endpoints request failed with HTTP " + String(response.status));
 const payload = await response.json();
