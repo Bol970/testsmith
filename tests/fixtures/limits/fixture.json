@@ -1,0 +1,6 @@
+{
+  "virtualCheckoutBytes": 209715201,
+  "agentTimeoutMs": 900001,
+  "expectedCheckoutOutcome": "failed",
+  "expectedAgentOutcome": "timeout"
+}

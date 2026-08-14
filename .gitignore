@@ -1,0 +1,14 @@
+node_modules/
+dist/
+coverage/
+playwright-report/
+test-results/
+.env
+.env.*
+!.env.example
+.vercel/
+*.log
+sandbox/dist/
+sandbox/node_modules/
+sandbox/.env
+.DS_Store

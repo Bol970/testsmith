@@ -1,0 +1,5 @@
+{
+  "name": "fixture-policy-violation",
+  "private": true,
+  "scripts": { "test": "node --test" }
+}

@@ -1,0 +1,6 @@
+{
+  "mode": "tests_only",
+  "paths": ["tests/new.test.js", "src/production.js"],
+  "allowed": ["tests/new.test.js"],
+  "excluded": ["src/production.js"]
+}

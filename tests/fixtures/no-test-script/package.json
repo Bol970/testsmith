@@ -1,0 +1,5 @@
+{
+  "name": "fixture-no-test-script",
+  "private": true,
+  "scripts": { "build": "node -e \"console.log('build')\"" }
+}

@@ -1,0 +1,5 @@
+{
+  "name": "fixture-malicious-pi",
+  "private": true,
+  "scripts": { "test": "node --test" }
+}
