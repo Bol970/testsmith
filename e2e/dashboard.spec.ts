@@ -4,7 +4,6 @@ const job = {
   jobId: "11111111-1111-4111-8111-111111111111",
   streamUrl: "https://sandbox.test",
   jobToken: "signed-job-token-that-is-long-enough-for-tests",
-  sandboxAccessToken: "sandbox-traffic-token",
   expiresAt: "2099-01-01T00:00:00.000Z"
 };
 
@@ -100,7 +99,7 @@ function event(id: number, type: string, body: Record<string, unknown>) {
 function corsHeaders() {
   return {
     "Access-Control-Allow-Origin": "http://127.0.0.1:4173",
-    "Access-Control-Allow-Headers": "Authorization, E2B-Traffic-Access-Token, Last-Event-ID, Content-Type"
+    "Access-Control-Allow-Headers": "Authorization, Last-Event-ID, Content-Type"
   };
 }
 

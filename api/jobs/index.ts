@@ -21,11 +21,10 @@ async function activeTestSmithSandboxes(apiKey: string) {
   return sandboxes.filter((sandbox) => sandbox.metadata?.app === "testsmith");
 }
 
-async function waitForRunner(baseUrl: string, sandboxAccessToken: string): Promise<void> {
+async function waitForRunner(baseUrl: string): Promise<void> {
   for (let attempt = 0; attempt < 20; attempt += 1) {
     try {
       const response = await fetch(baseUrl + "/healthz", {
-        headers: { "E2B-Traffic-Access-Token": sandboxAccessToken },
         signal: AbortSignal.timeout(2_000)
       });
       if (response.ok) return;
@@ -89,7 +88,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     sandbox = await Sandbox.create(config.e2bTemplate, {
       apiKey: config.e2bApiKey,
       secure: true,
-      network: { allowPublicTraffic: false },
+      network: { allowPublicTraffic: true },
       timeoutMs: HARD_TIMEOUT_MS,
       metadata: {
         app: "testsmith",
@@ -113,10 +112,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     }
 
     const streamUrl = "https://" + sandbox.getHost(8080);
-    if (!sandbox.trafficAccessToken) {
-      throw new Error("secure sandbox did not return a traffic access token");
-    }
-    await waitForRunner(streamUrl, sandbox.trafficAccessToken);
+    await waitForRunner(streamUrl);
 
     const jobToken = signJobToken(
       {
@@ -150,7 +146,6 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
       jobId,
       streamUrl,
       jobToken,
-      sandboxAccessToken: sandbox.trafficAccessToken,
       expiresAt: hardExpiresAt.toISOString()
     };
     res.setHeader("Cache-Control", "no-store");

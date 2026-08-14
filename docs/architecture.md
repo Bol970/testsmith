@@ -24,14 +24,15 @@ flowchart LR
 
 Bootstrap-файл имеет owner `user` и существует только между ответом Files API и ближайшим poll runner'а. Runner удаляет файл до сетевого clone. После Pi runtime key удаляется из `ModelRuntime`, строковые ссылки очищаются, временный agent directory удаляется.
 
-## Два токена браузера
+## Авторизация браузера
 
-Закрытый E2B proxy (`allowPublicTraffic: false`) требует `E2B-Traffic-Access-Token`. Он не заменяет собственную авторизацию TestSmith:
+E2B controller создаётся с `secure: true`, поэтому Files API и управление sandbox доступны только Vercel. Custom runner port использует `allowPublicTraffic: true`, чтобы браузерный CORS preflight мог дойти до runner без секрета в URL. Рабочие данные всё равно закрыты собственной авторизацией TestSmith:
 
-- `E2B-Traffic-Access-Token` пропускает запрос через E2B proxy;
 - `Authorization: Bearer <jobToken>` проверяется runner'ом;
+- без корректного job token `/events`, `/result` и `/artifact` возвращают `401`;
+- `/healthz` сообщает только состояние процесса и не раскрывает данные задания;
 - `jobToken` — HMAC payload с `jobId`, `sandboxId`, `exp`, проверяемый также `/api/jobs/stop`;
-- ни один токен не помещается в URL или persistent storage.
+- token не помещается в URL или persistent storage.
 
 ## Изменения файлов
 

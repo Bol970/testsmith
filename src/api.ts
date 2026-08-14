@@ -87,7 +87,6 @@ export async function consumeJobEvents(
     headers: {
       Accept: "text/event-stream",
       Authorization: "Bearer " + job.jobToken,
-      "E2B-Traffic-Access-Token": job.sandboxAccessToken,
       ...(lastEventId > 0 ? { "Last-Event-ID": String(lastEventId) } : {})
     },
     signal,
@@ -124,7 +123,6 @@ export async function consumeJobEvents(
 
 function sandboxHeaders(job: ActiveJob): Record<string, string> {
   return {
-    Authorization: "Bearer " + job.jobToken,
-    "E2B-Traffic-Access-Token": job.sandboxAccessToken
+    Authorization: "Bearer " + job.jobToken
   };
 }

@@ -49,9 +49,12 @@ describe("POST /api/jobs", () => {
     const response = fakeResponse();
     await handler(request({ accessCode: "correct horse" }), response as any);
     expect(response.statusCode).toBe(202);
-    expect(e2b.create).toHaveBeenCalledWith("testsmith-agent-v1", expect.objectContaining({ secure: true }));
+    expect(e2b.create).toHaveBeenCalledWith("testsmith-agent-v1", expect.objectContaining({
+      secure: true,
+      network: { allowPublicTraffic: true }
+    }));
     expect(e2b.write).toHaveBeenCalledWith("/tmp/testsmith-job.json", expect.any(String), { user: "user" });
-    expect(response.body).toEqual(expect.objectContaining({ sandboxAccessToken: "traffic-token" }));
+    expect(response.body).not.toHaveProperty("sandboxAccessToken");
   });
 
   it("rejects an invalid access code before E2B", async () => {

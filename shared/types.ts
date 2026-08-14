@@ -110,8 +110,6 @@ export type StartJobResponse = {
   jobId: string;
   streamUrl: string;
   jobToken: string;
-  /** Short-lived E2B proxy credential; sent only as E2B-Traffic-Access-Token, never in a URL. */
-  sandboxAccessToken: string;
   expiresAt: string;
 };
 
