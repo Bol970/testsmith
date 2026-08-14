@@ -404,31 +404,138 @@ export default function App() {
   );
 }
 
-const matrixColumns = [
-  "ﾊﾐﾋｰｳｼﾅﾓﾆｻﾜﾂｵﾘ0Z1", "010011101001011", "ﾇﾌｱｸｴｶｷﾑﾕﾗｾﾈｽ", "TS101PI010E2B",
-  "ｺﾎﾃﾏｹﾒｴｶｷﾑﾕﾗ", "1011010011010", "ｻﾜﾂｵﾘﾇﾌｱｸｴｶ", "001TEST11001",
-  "ﾐﾋｰｳｼﾅﾓﾆｻﾜﾂ", "111001010011", "ｷﾑﾕﾗｾﾈｽﾀﾇﾍ", "PI01E2B10TS",
-  "ﾌｱｸｴｶｷﾑﾕﾗｾ", "010110100101", "ﾓﾆｻﾜﾂｵﾘﾇﾌｱ", "110VERIFY001",
-  "ｳｼﾅﾓﾆｻﾜﾂｵﾘ", "010011001011", "ﾗｾﾈｽﾀﾇﾍﾎﾏｹ", "E2B110PI001",
-  "ｴｶｷﾑﾕﾗｾﾈｽﾀ", "101001110100", "ﾜﾂｵﾘﾇﾌｱｸｴｶ", "001AGENT101"
-];
+const matrixGlyphs = Array.from("日ﾊﾋｼﾂｳｰﾅﾐﾓﾆｻﾜｵﾘﾎﾏｹﾒｴｶｷﾑﾕﾗｾﾈｽﾀﾇﾍ012345789:・.=*+-<>¦｜");
+
+type MatrixStream = {
+  row: number;
+  interval: number;
+  nextTick: number;
+  tail: number;
+  highlighted: boolean;
+};
 
 function MatrixRain() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const context = canvas.getContext("2d");
+    if (!context) return;
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const fontSize = window.innerWidth < 640 ? 13 : 15;
+    let width = 0;
+    let height = 0;
+    let streams: MatrixStream[] = [];
+    let frame = 0;
+    let lastPaint = 0;
+
+    const glyph = () => matrixGlyphs[Math.floor(Math.random() * matrixGlyphs.length)];
+
+    const resetStream = (stream: MatrixStream, now: number, randomStart = false) => {
+      stream.row = randomStart
+        ? Math.floor(Math.random() * (height / fontSize + 26)) - 26
+        : -Math.floor(Math.random() * 45) - 4;
+      stream.interval = 54 + Math.random() * 92;
+      stream.nextTick = now + Math.random() * stream.interval * 8;
+      stream.tail = 8 + Math.floor(Math.random() * 25);
+      stream.highlighted = Math.random() < 0.22;
+    };
+
+    const paintGlyph = (value: string, x: number, y: number, color: string, glow: number) => {
+      context.save();
+      if (/^[\uFF61-\uFF9F]$/.test(value)) {
+        context.translate(x * 2, 0);
+        context.scale(-1, 1);
+      }
+      context.fillStyle = color;
+      context.shadowColor = color;
+      context.shadowBlur = glow;
+      context.fillText(value, x, y);
+      context.restore();
+    };
+
+    const drawStaticFrame = () => {
+      context.fillStyle = "#010403";
+      context.fillRect(0, 0, width, height);
+      streams.forEach((stream, column) => {
+        const head = Math.floor(Math.random() * (height / fontSize));
+        for (let offset = stream.tail; offset >= 0; offset -= 1) {
+          const y = (head - offset) * fontSize;
+          if (y < 0) continue;
+          const alpha = Math.max(0.05, 1 - offset / stream.tail);
+          const color = offset === 0 && stream.highlighted
+            ? "rgba(225,255,232,.95)"
+            : `rgba(20,255,82,${alpha * 0.52})`;
+          paintGlyph(glyph(), column * fontSize, y, color, offset === 0 ? 8 : 0);
+        }
+      });
+    };
+
+    const resize = () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      const pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
+      canvas.width = Math.floor(width * pixelRatio);
+      canvas.height = Math.floor(height * pixelRatio);
+      canvas.style.width = width + "px";
+      canvas.style.height = height + "px";
+      context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+      context.textAlign = "center";
+      context.textBaseline = "top";
+      context.font = `600 ${fontSize}px "IBM Plex Mono", monospace`;
+      const now = performance.now();
+      streams = Array.from({ length: Math.ceil(width / fontSize) }, () => {
+        const stream: MatrixStream = { row: 0, interval: 0, nextTick: 0, tail: 0, highlighted: false };
+        resetStream(stream, now, true);
+        return stream;
+      });
+      drawStaticFrame();
+    };
+
+    const draw = (now: number) => {
+      frame = window.requestAnimationFrame(draw);
+      if (now - lastPaint < 32) return;
+      lastPaint = now;
+
+      context.fillStyle = "rgba(0, 4, 1, .048)";
+      context.fillRect(0, 0, width, height);
+
+      streams.forEach((stream, column) => {
+        if (now < stream.nextTick) return;
+        stream.nextTick = now + stream.interval;
+        const x = column * fontSize + fontSize / 2;
+        const y = stream.row * fontSize;
+
+        if (Math.random() < 0.055) {
+          context.fillStyle = "rgba(0, 5, 1, .84)";
+          context.fillRect(column * fontSize, y, fontSize, fontSize);
+        } else {
+          const leader = stream.highlighted ? "rgba(232,255,237,.98)" : "rgba(84,255,126,.93)";
+          paintGlyph(glyph(), x, y, leader, stream.highlighted ? 10 : 5);
+          if (Math.random() < 0.09 && stream.row > 3) {
+            const mutationRow = stream.row - 2 - Math.floor(Math.random() * Math.min(stream.tail, stream.row));
+            paintGlyph(glyph(), x, mutationRow * fontSize, "rgba(22,225,73,.42)", 0);
+          }
+        }
+
+        stream.row += 1;
+        if (y > height + stream.tail * fontSize) resetStream(stream, now);
+      });
+    };
+
+    resize();
+    if (!reducedMotion) frame = window.requestAnimationFrame(draw);
+    window.addEventListener("resize", resize);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("resize", resize);
+    };
+  }, []);
+
   return (
-    <div className="matrix-rain" aria-hidden="true">
-      {matrixColumns.map((glyphs, index) => (
-        <span
-          key={index}
-          style={{
-            left: `${1 + index * 4.2}%`,
-            animationDelay: `${-((index * 1.73) % 12)}s`,
-            animationDuration: `${10 + (index % 7) * 1.35}s`
-          }}
-        >
-          {glyphs}
-        </span>
-      ))}
-    </div>
+    <canvas ref={canvasRef} className="matrix-rain" aria-hidden="true" />
   );
 }
 
